@@ -21,3 +21,8 @@ Section to exaplain the repository structure.
 - Install requiments
     `python3 -m pip install --upgrade pip`
     `pip install -r requirements.txt`
+
+## Run Local API
+
+- After installing requirements, run the server with uvicorn
+    `uvicorn main:app --reload`
