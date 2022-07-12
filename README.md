@@ -64,6 +64,10 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 ## Run Local API
 
-- After installing requirements, run the server with uvicorn
+- After installing requirements, move to iris-api folder
+
+    `cd iris-api/`
+
+- the then, run the server with uvicorn
 
     `uvicorn main:app --reload`
