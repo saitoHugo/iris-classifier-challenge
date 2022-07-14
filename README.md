@@ -19,7 +19,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
     ├── assets                      # Local storage for images and other static resources
     │   └── images                  # Folder to save images used in project 
     │
-    ├── data                        # Local storage of the dataset (alternatively `lib` or `app`)
+    ├── data                        # Local storage of the dataset
     │
     ├── iris-api                    # Main folder of FastAPI 
     │   ├── main                    # Main file fo API
@@ -32,8 +32,8 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
     │
     ├── notebooks                   # Folder to storage all jupyter notebooks
     │   ├── data_exploration.ipynb  #Data Exploration Proccess
-    │   ├── data_exploration.ipynb  #Data Exploration Proccess
-    │   └── data_exploration.ipynb  #Data Exploration Procces
+    │   ├── training.ipynb  #Data Preparation and Training Proccess
+    │ 
     │
     ├── Dockerfile                  # Dockerfile configuration
     │
@@ -49,7 +49,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 - Python3 3.9.13
 - Pip 22.1.2
-- Linux OS
+- Ubuntu OS
 
 
 ## Prepara the enviroment
@@ -75,6 +75,19 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
     `cd iris-api/`
 
-- the then, run the server with uvicorn
+- Then, run the server with uvicorn
 
-    `uvicorn main:app --reload`
+    `uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8080`
+
+
+### API Docs
+
+- To access the api documentation access the link generated and you will redicrected to `/doc`:
+    `http://0.0.0.0:8080`
+
+**Endponits Disponíveis**
+
+`/train` : used to execute a new training
+
+`/predict` :   used to execute a new prediction based on 4 features inputs
+
