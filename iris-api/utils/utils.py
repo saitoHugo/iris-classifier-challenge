@@ -15,7 +15,7 @@ def train():
 
     pass
 
-def predict(model_name:str, input:List[float]):
+def predict(model_name:str, input:List[float]) -> str:
     model_path = Path(BASE_DIR).joinpath(f"{ticker}.joblib")
     if not model_path.exists():
         return Exception(f"Could not find model at {model_path}")
@@ -26,4 +26,4 @@ def predict(model_name:str, input:List[float]):
 
     #execute prediction
 
-    #return output class by name
+    #return output class by name (str)
