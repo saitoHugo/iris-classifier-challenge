@@ -34,15 +34,14 @@ def execute_train():
     
     #execute test
     #save json result
-    performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test)
+    results = performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test)
     
 
     #save new models
     save_trained_models(trained_classifiers)
 
-    #return 200
-
-    pass
+    #return outputs
+    return results
 
 def predict(model_name:str, input:List[float]) -> str:
     model_path = Path(BASE_DIR).joinpath(f"{model_name}.pkl")
@@ -142,12 +141,13 @@ def define_all_classifiers():
     return classifiers
 
 def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
+    results = {}
     for clf in trained_classifiers.keys():
         #Test on testing dataset
         y_pred = trained_classifiers[clf].predict(x_test)
         
         #Performance Metrics
-        score = round(trained_classifiers[clf].score(x_train, y_train)*100, 4)
+        train_score = round(trained_classifiers[clf].score(x_train, y_train)*100, 4)
         
         acc_score = round(accuracy_score(y_test,y_pred)*100, 4)
         precision = round(precision_score(y_test, y_pred,average='micro')*100, 4)
@@ -156,13 +156,21 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         f1 = round(f1_score(y_test,y_pred,average='micro')*100, 4)
         
         #TODO: update to save into json
+        print(f"{clf} ------->> train score = {train_score}%")
         print(f"{clf} ------->> accuracy_score = {acc_score}%")
-        print(f"{clf} ------->> score = {score}%")
         print(f"{clf} ------->> precision = {precision}%")
         print(f"{clf} ------->> conf_matrix = ")
         print(f"{conf_matrix}")
         print(f"{clf} ------->> recall = {recall}%")
         print(f"{clf} ------->> f1 score = {f1}%")
+        results[clf] = [train_score, acc_score, precision, recall, f1]
+
+    if results:
+        #save new results
+        
+        return results
+    else:
+        pass
 
 def save_trained_models(trained_classifiers):
     
