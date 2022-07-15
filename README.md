@@ -75,10 +75,14 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 - After installing requirements, move to iris-api folder
 
     `cd iris-api/`
+    
 
 - Then, run the local server with uvicorn
 
     `uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8080`
+
+- Or only run:
+    `make dev`
 
 
 ### API Docs
@@ -99,9 +103,19 @@ It's a prerequisite that you have docker installed.
 - Go to the project directory (in where the Dockerfile and build your FastAPI image:
 - Build the docker image running:
     `docker build --tag iris-api .`
+
+- Or only run:
+    `make docker-build`
+
 - Run the docker image using:
     `docker run -i -d -p 8080:8080 iris-api`
     `docker run --publish 8080:8080 --name iris-api`
     `docker run -p 8080:8080 --name iris-api-container iris-api`
+
+- Or only run:
+    `make docker-run`
+
+
+## Deploy
 
 
