@@ -5,6 +5,8 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 import pickle
+import json 
+from datetime import datetime
 
 #Metrics
 from sklearn.metrics import classification_report
@@ -18,8 +20,10 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.naive_bayes import GaussianNB
-
+import logging
 from sklearn.model_selection import cross_val_score
+
+logger = logging.getLogger(__name__)
 
 def execute_train():
     #TODO: download dataset if not erxists
@@ -167,7 +171,12 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
 
     if results:
         #save new results
-        
+        results_path = '../results/'
+        timestamp = datetime.now().strftime("%d-%B-%Y") + '-' + datetime.now().time().strftime("%H-%M-%S")
+        file_path = results_path + 'results-'+ timestamp + '.json'
+        with open(file_path, 'w') as file:
+            json.dump(results, file)
+
         return results
     else:
         pass
