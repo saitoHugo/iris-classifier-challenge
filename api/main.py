@@ -10,6 +10,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+# global BASE_DIR
+# BASE_DIR = Path(__file__).resolve(strict=True).parent
+
 
 """
 TODO: 
@@ -62,31 +65,6 @@ class TrainOutput(BaseModel):
 async def docs_redirect():
     return RedirectResponse(url='/docs')
 
-@app.post("/predict", response_model=PredictionOutput, status_code=200)
-def prediction(payload: PredictionInput):
-    logger.info("/predict route init")
-    #load model based on the name
-    #raise http expetion if not exists
-    #execute prediction
-    #
-    model_name = payload.model_name
-    print("Model Name")
-    prediction = utils.predict(model_name)
-    logger.info("utils.predict executed")
-    
-
-    if not prediction:
-        raise HTTPException(status_code=400, detail="Model not found.")
-    
-    value = prediction[0]
-
-    #convert to label
-    label = utils.convert_value_to_label(value)
-    logger.info("utils.convert_value_to_label executed")
-    
-    response_object = {"model_name": model_name, "label":label, "value": value}
-    return response_object
-
 
 @app.post("/train", response_model=TrainOutput, status_code=200)
 def train():
@@ -100,3 +78,46 @@ def train():
 
     return results
     
+
+@app.post("/predict", response_model=PredictionOutput, status_code=200)
+def prediction(payload: PredictionInput):
+    logger.info("/predict route init")
+    #load model based on the name
+    #raise http expetion if not exists
+    
+    if not (payload.model_name or payload.inputs):
+        logger.info("Model Name was not send via payload")
+        raise HTTPException(status_code=400, detail="Payload error: model_name attribute could not be found")
+    model_name = payload.model_name
+    print(f"Model Name - > {model_name}")
+    inputs = payload.inputs 
+    print(f"Model inputs - > {inputs}")
+
+    
+
+    #execute prediction
+    try:
+        prediction = utils.predict(model_name, inputs)
+        print(f"Prediction -> {prediction}")
+        print(f"Prediction type-> {type(prediction)}")
+        logger.info("utils.predict executed")
+    except:
+        logger.info("error occurred in the prediction process")
+        raise HTTPException(status_code=500, detail="Internal error during predict execution.")
+    
+
+    if not (prediction or len(prediction) == 1):
+        raise HTTPException(status_code=500, detail="Internal Problem with predict execution.")
+    
+    
+    value = prediction[0]
+    print(f"Prediction value - > {value}")
+
+    #convert to label
+    label = utils.convert_value_to_label(value)
+    print(f"Prediction label - > {label}")
+    logger.info("utils.convert_value_to_label executed")
+    
+    response_object = {"model_name": model_name, "label":label, "value": value}
+    print(f"Prediction response_object - > {response_object}")
+    return response_object
