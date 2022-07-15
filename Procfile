@@ -1,1 +1,1 @@
-web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --timeout 90
+web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker iris-api.main:app --timeout 90
