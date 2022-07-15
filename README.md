@@ -47,9 +47,10 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 ## Prerequisits
 
-- Python3 3.9.13
-- Pip 22.1.2
-- Ubuntu OS
+- Python - Version: 3 3.9.13
+- Docker Engine Community - Version: 20.10.17
+- Pip - Version:22.1.2
+- Ubuntu OS Version: 20.
 
 
 ## Prepara the enviroment
@@ -90,4 +91,16 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 `/train` : used to execute a new training with all models
 
 `/predict` :   used to execute a new prediction based on 4 features inputs
+
+
+### Docker
+
+It's a prerequisite that you have docker installed.
+
+- Build the docker image running:
+    `docker build . -t iris-api`
+- Run the docker image using:
+    `docker run -i -d -p 8080:8080 iris-api`
+
+
 
