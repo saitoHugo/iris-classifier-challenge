@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 from pathlib import Path
 import utils.aux as utils
 from typing import List
-import models
+import models_validator
 import logging
 import pandas as pd
 
@@ -39,7 +39,7 @@ async def docs_redirect():
     return RedirectResponse(url='/docs')
 
 
-@app.post("/train", response_model=models.TrainOutput, status_code=200)
+@app.post("/train", response_model=models_validator.TrainOutput, status_code=200)
 def train():
     logger.info("/train route init")
     try:
@@ -52,8 +52,8 @@ def train():
     return results
     
 
-@app.post("/predict", response_model=models.PredictionOutput, status_code=200)
-def prediction(payload: models.PredictionInput):
+@app.post("/predict", response_model=models_validator.PredictionOutput, status_code=200)
+def prediction(payload: models_validator.PredictionInput):
     logger.info("/predict route init")
       
     if not (payload.model_name or payload.inputs):
