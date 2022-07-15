@@ -47,7 +47,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 ## Prerequisits
 
-- Python - Version: 3 3.9.13
+- Python - Version: 3.9.13
 - Docker Engine Community - Version: 20.10.17
 - Pip - Version:22.1.2
 - Ubuntu OS Version: 20.
@@ -96,11 +96,12 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 ### Docker
 
 It's a prerequisite that you have docker installed.
-
+- Go to the project directory (in where the Dockerfile and build your FastAPI image:
 - Build the docker image running:
-    `docker build . -t iris-api`
+    `docker build -t iris-api .`
 - Run the docker image using:
     `docker run -i -d -p 8080:8080 iris-api`
+    `docker run -p 8080:8080 -it iris-api`
 
 
 

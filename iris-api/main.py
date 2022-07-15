@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from pathlib import Path
-from utils import utils
+import utils.utils as utils
 from typing import List
 import models
 import logging
