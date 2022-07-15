@@ -1,7 +1,7 @@
 from typing import List
 from pathlib import Path
 #import api.utils.globals as globals
-import utils.globals
+#import utils.globals
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split

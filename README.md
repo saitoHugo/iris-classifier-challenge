@@ -98,10 +98,10 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 It's a prerequisite that you have docker installed.
 - Go to the project directory (in where the Dockerfile and build your FastAPI image:
 - Build the docker image running:
-    `docker build -t iris-api .`
+    `docker build --tag iris-api .`
 - Run the docker image using:
     `docker run -i -d -p 8080:8080 iris-api`
-    `docker run -p 8080:8080 -it iris-api`
-
+    `docker run --publish 8080:8080 --name iris-api`
+    `docker run -p 8080:8080 --name iris-api-container iris-api`
 
 
