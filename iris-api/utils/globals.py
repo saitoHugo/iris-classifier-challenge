@@ -3,9 +3,9 @@ import pandas as pd
 """
 File to save all global variables declared in api
 """
-# #define root path
-# global BASE_DIR
-# BASE_DIR = Path(__file__).resolve(strict=True).parent
+#define root path
+global BASE_DIR
+BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 
 # #load dataset globally

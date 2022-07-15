@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from pathlib import Path
-import utils.utils as utils
+import utils.aux as utils
 from typing import List
 import models
 import logging
@@ -31,7 +31,7 @@ async def load_base_dir():
     #define root path
     global BASE_DIR
     BASE_DIR = Path(__file__).resolve(strict=True).parent
-
+    print(f"BASE DIR - > {BASE_DIR}")
 
     
 @app.get("/", include_in_schema=False)

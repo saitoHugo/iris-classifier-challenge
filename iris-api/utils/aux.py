@@ -1,7 +1,7 @@
 from typing import List
 from pathlib import Path
 #import api.utils.globals as globals
-#import utils.globals
+import utils.globals as globals
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -9,6 +9,7 @@ import pickle
 import json 
 from datetime import datetime
 import numpy as np
+import os
 
 #Metrics
 from sklearn.metrics import classification_report
@@ -39,8 +40,20 @@ def execute_train():
     column_names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species' ]
     print(f"column_names -> {column_names}")
     #TODO: update to BASE_DIR
-    global data
-    data = pd.read_csv('../data/iris-data.csv', names=column_names, header=None)
+    print(f"BASE_DIR -> {globals.BASE_DIR}")
+    print(f"BASE_DIR -> {type(globals.BASE_DIR)}")
+    #print(Path(__file__).resolve(strict=True).parent.parent.parent)
+
+    print(f"BASE_DIR -> {globals.BASE_DIR.paren.parent}")
+    print(f"BASE_DIR -> {type(globals.BASE_DIR.parent.parent)}")
+    #project_root = Path(__file__).resolve(strict=True).parent.parent.parent
+    #print(f"project_root -> {project_root}")
+    #data_path = os.path.join(project_root, "/data/iris-data.csv")
+    data_path = globals.BASE_DIR.parent.parent / "data/iris-data.csv"
+    print(f"data_path -> {data_path}")
+    data = pd.read_csv(data_path, names=column_names, header=None)
+    
+    #data = pd.read_csv('../../../data/iris-data.csv', names=column_names, header=None)
     print(f"data -> {data}")
     #execute preprocessing
     x_train, x_test, y_train, y_test = data_pipeline(data=data)
