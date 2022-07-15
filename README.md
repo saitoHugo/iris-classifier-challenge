@@ -5,7 +5,6 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 - add iris challenge overview
 - add solution approach and steps
-- add refs used
 
 
 
