@@ -80,22 +80,22 @@ def data_pipeline(data:pd.DataFrame) -> pd.DataFrame:
     logger.info("data_pipeline init")
     #Separate feature from label
     data_x = data.drop(['Species'], axis=1)
-    print(f"data_x shape - {data_x.shape}")
-    print(f"data_x head - {data_x.head()}")
+    #print(f"data_x shape - {data_x.shape}")
+    #print(f"data_x head - {data_x.head()}")
 
     data_y = data['Species']
-    print(f"data_y type - {type(data_y)}")
-    print(f"data_y shape - {data_y.shape}")
-    print(f"data_y head - {data_y.head()}")
-    print(f"data_y head - {data_y.tail()}")
+    #print(f"data_y type - {type(data_y)}")
+    #print(f"data_y shape - {data_y.shape}")
+    #print(f"data_y head - {data_y.head()}")
+    #print(f"data_y head - {data_y.tail()}")
 
     #convert Labels to numerical
     label_encoder = LabelEncoder()
     data_y = label_encoder.fit_transform(data_y)
-    print(f"data_y type - {type(data_y)}")
-    print(f"data_y head - {data_y[:10]}")
-    print(f"data_y tail - {data_y[-10:]}")
-    print(f"data_y lenght - {len(data_y)}")
+    #print(f"data_y type - {type(data_y)}")
+    #print(f"data_y head - {data_y[:10]}")
+    #print(f"data_y tail - {data_y[-10:]}")
+    #print(f"data_y lenght - {len(data_y)}")
     logger.info("data transformations executed")
 
 
@@ -161,13 +161,13 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         f1 = round(f1_score(y_test,y_pred,average='micro')*100, 4)
         
         #TODO: update to save into json
-        print(f"{clf} ------->> train score = {train_score}%")
-        print(f"{clf} ------->> accuracy_score = {acc_score}%")
-        print(f"{clf} ------->> precision = {precision}%")
-        print(f"{clf} ------->> conf_matrix = ")
-        print(f"{conf_matrix}")
-        print(f"{clf} ------->> recall = {recall}%")
-        print(f"{clf} ------->> f1 score = {f1}%")
+        #print(f"{clf} ------->> train score = {train_score}%")
+        #print(f"{clf} ------->> accuracy_score = {acc_score}%")
+        #print(f"{clf} ------->> precision = {precision}%")
+        #print(f"{clf} ------->> conf_matrix = ")
+        #print(f"{conf_matrix}")
+        #print(f"{clf} ------->> recall = {recall}%")
+        #print(f"{clf} ------->> f1 score = {f1}%")
         results[clf.replace(' ', '')] = [train_score, acc_score, precision, recall, f1]
         logger.info(f"Model {clf} EVALUATED!")
     if results:

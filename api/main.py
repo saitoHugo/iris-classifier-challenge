@@ -65,16 +65,20 @@ async def docs_redirect():
 @app.post("/predict", response_model=PredictionOutput, status_code=200)
 def prediction(payload: PredictionInput):
     logger.info("/predict route init")
+    #load model based on the name
+    #raise http expetion if not exists
+    #execute prediction
+    #
     model_name = payload.model_name
-
-    prediction_list = utils.predict(model_name)
+    print("Model Name")
+    prediction = utils.predict(model_name)
     logger.info("utils.predict executed")
     
 
-    if not prediction_list:
+    if not prediction:
         raise HTTPException(status_code=400, detail="Model not found.")
     
-    value = prediction_list[0]
+    value = prediction[0]
 
     #convert to label
     label = utils.convert_value_to_label(value)
