@@ -1,1 +1,1 @@
-web uvicorn iris-api.main:app --host 0.0.0.0 --port $PORT
+web: uvicorn iris-api.app:app --host=0.0.0.0 --port=${PORT}:web: uvicorn iris.app:app --host=0.0.0.0 --port=${PORT}:-5000

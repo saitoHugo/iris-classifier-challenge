@@ -26,10 +26,15 @@ COPY . /code
 
 #EXPOSE 8080
 #EXPOSE 8080:8080
+#ENV PORT $PORT
+
 
 ENV PYTHONPATH "${PYTHONPATH}:/code/iris-api"
 #CMD ["make dev"]
-CMD ["uvicorn", "iris-api.main:app", "--reload",  "--workers", "1", "--host", "0.0.0.0", "--port", "$PORT"]
+EXPOSE $PORT
+CMD gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT app.main:app
+
+#CMD ["uvicorn", "iris-api.main:app", "--reload",  "--workers", "1", "--host", "0.0.0.0", "--port", "$PORT"]
 
 # If running behind a proxy like Nginx or Traefik add --proxy-headers
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers"]
