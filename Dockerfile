@@ -8,9 +8,9 @@ RUN apt-get -y update  && apt-get install -y \
   python-dev \
   build-essential 
 
-ENV VIRTUAL_ENV=/code/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# ENV VIRTUAL_ENV=/code/venv
+# RUN python3 -m venv $VIRTUAL_ENV
+# ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 #RUN python3 -m venv /code/venv
 #ENV PATH="/code/venv/bin/activate"
 
@@ -25,7 +25,10 @@ COPY ./iris-api /code/iris-api
 COPY . /code
 
 EXPOSE 8080
+#EXPOSE 8080:8080
+
 ENV PYTHONPATH "${PYTHONPATH}:/code/iris-api"
+#CMD ["make dev"]
 CMD ["uvicorn", "iris-api.main:app", "--host", "0.0.0.0", "--port", "8080"]
 
 # If running behind a proxy like Nginx or Traefik add --proxy-headers

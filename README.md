@@ -118,4 +118,20 @@ It's a prerequisite that you have docker installed.
 
 ## Deploy
 
+- heroku login
 
+- heroku create iris-api-container
+
+- heroku container:login
+
+- Build the Docker image and tag it with the Heroku format:
+    `make heroku-docker-build`
+
+- Registry image in Heroku docker Registry:
+    `make heroku-docker-registry`
+
+- Perform a release:
+    `make heroku-release`
+
+- Now a new deploy is executed in Heroku, acess public link:
+    https://iris-classifier-challenge.herokuapp.com/
