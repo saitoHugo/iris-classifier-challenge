@@ -34,8 +34,7 @@ logger = logging.getLogger(__name__)
 def execute_train():
     #TODO: download dataset if not erxists
 
-    #load dataset globally
-    #data = global_varibles.data
+    
     #execute preprocessing
     x_train, x_test, y_train, y_test = data_pipeline(data=data)
 
@@ -55,10 +54,11 @@ def execute_train():
 
 
 def convert_value_to_label(prediction_value:int) ->  str:
+    #DONE: update to correct label names
     label_decode_dict = {
-        0 : 'flower0',
-        1 : 'flower1',
-        2 : 'flower2',
+        0 : 'Iris-setosa',
+        1 : 'Iris-versicolor',
+        2 : 'Iris-virginica',
     }
 
     if prediction_value not in label_decode_dict.keys():
@@ -154,7 +154,7 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         recall =  round(recall_score(y_test, y_pred,average='micro')*100, 4)
         f1 = round(f1_score(y_test,y_pred,average='micro')*100, 4)
         
-        #TODO: update to save into json
+        #DONE: update to save into json
         #print(f"{clf} ------->> train score = {train_score}%")
         #print(f"{clf} ------->> accuracy_score = {acc_score}%")
         #print(f"{clf} ------->> precision = {precision}%")
@@ -187,8 +187,7 @@ def save_trained_models(trained_classifiers):
         with open(model_path, 'wb') as model_file:
             pickle.dump(trained_classifiers[clf], model_file)
             logger.info(f"New Model {clf} saved!")
-            #TODO: update global variable of model update
-
+           
 
 ##################################
 ########### PREDICTION ###########
@@ -206,8 +205,6 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     print(f"preprocessed_input.shape -> {preprocessed_input.shape}")
     
     #validate and load model base on given name
-    
-    
     #base_dir = BASE_DIR
     base_dir = '/home/saito/Documents/picpay/iris-classifier-challenge/api/utils'
     print(f"base_dir-> {base_dir}")
@@ -238,11 +235,14 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     return []
    
 
-def validate_input(inputs):
+def validate_input(inputs:List[float]):
+    #DONE: validate inputs
     #check input type
     #float inputs lenght
+    if not len(inputs) == 4:
+        raise Exception("Inputs are expected to be list of 4 attributes (float)")
     #raise expection otherwise
-    pass
+    
 
 def input_preprocessing(inputs:List[float]) -> np.array:
     #convert list to numpy array with shape 1,4

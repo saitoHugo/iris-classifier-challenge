@@ -16,20 +16,11 @@ app = FastAPI()
 
 """
 TODO: 
-    - load all models gloabally
-    - create a train route
-    - create a predict route based on model selection
     - extra route get_all_trained_models
     - download local data or download from bucket
 
 """
-# #TODO: define global base dir
-# global BASE_DIR
-# BASE_DIR = Path(__file__).resolve(strict=True).parent
 
-#load datset globally
-
-#load all model glabally if exists
 
 
 ### pydantic models
@@ -37,28 +28,20 @@ class PredictionInput(BaseModel):
     model_name: str
     inputs: List[float]
 
-
-
 class PredictionOutput(BaseModel):
     model_name: str
     label: str
     value: int
 
-#class TrainInput(BaseModel):
-#    #TODO:update attributes
-#    model_name: str
-    
-
-
-
 class TrainOutput(BaseModel):
-    #TODO:update attributes
     LogisticRegression : List[float]
     SupportVectorMachine : List[float]
     KNearestNeighbor : List[float]
     RandomForest : List[float]
     XgBoost : List[float]
     GaussianNaiveBayes: List[float]
+
+
 
 
 @app.get("/", include_in_schema=False)
@@ -82,9 +65,7 @@ def train():
 @app.post("/predict", response_model=PredictionOutput, status_code=200)
 def prediction(payload: PredictionInput):
     logger.info("/predict route init")
-    #load model based on the name
-    #raise http expetion if not exists
-    
+      
     if not (payload.model_name or payload.inputs):
         logger.info("Model Name was not send via payload")
         raise HTTPException(status_code=400, detail="Payload error: model_name attribute could not be found")
