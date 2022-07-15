@@ -5,10 +5,11 @@ from utils import utils
 from typing import List
 import models
 import logging
-from utils import global_varibles
+import pandas as pd
+
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+app = FastAPI(title="Iris Species API", description="API for iris species dataset classification Machine Learning models.", version="1.0")
 
 # global BASE_DIR
 # BASE_DIR = Path(__file__).resolve(strict=True).parent
@@ -23,7 +24,14 @@ TODO:
 
 
 
+@app.on_event('startup')
+async def load_base_dir():
+    #define root path
+    global BASE_DIR
+    BASE_DIR = Path(__file__).resolve(strict=True).parent
 
+
+    
 @app.get("/", include_in_schema=False)
 async def docs_redirect():
     return RedirectResponse(url='/docs')

@@ -1,6 +1,7 @@
 from typing import List
 from pathlib import Path
-from utils.global_varibles import data, BASE_DIR
+#import api.utils.globals as globals
+import utils.globals
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -34,7 +35,13 @@ logger = logging.getLogger(__name__)
 def execute_train():
     #TODO: download dataset if not erxists
 
-    
+    #load dataset globally
+    column_names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species' ]
+    print(f"column_names -> {column_names}")
+    #TODO: update to BASE_DIR
+    global data
+    data = pd.read_csv('../data/iris-data.csv', names=column_names, header=None)
+    print(f"data -> {data}")
     #execute preprocessing
     x_train, x_test, y_train, y_test = data_pipeline(data=data)
 
