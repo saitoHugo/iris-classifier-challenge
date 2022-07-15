@@ -21,6 +21,8 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY ./iris-api /code/iris-api
+#COPY ./data /code/data
+COPY . /code
 
 EXPOSE 8080
 ENV PYTHONPATH "${PYTHONPATH}:/code/iris-api"

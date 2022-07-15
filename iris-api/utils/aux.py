@@ -40,17 +40,20 @@ def execute_train():
     column_names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species' ]
     print(f"column_names -> {column_names}")
     #TODO: update to BASE_DIR
-    print(f"BASE_DIR -> {globals.BASE_DIR}")
-    print(f"BASE_DIR -> {type(globals.BASE_DIR)}")
-    #print(Path(__file__).resolve(strict=True).parent.parent.parent)
+    # print(f"BASE_DIR -> {globals.BASE_DIR}")
+    # print(f"BASE_DIR -> {type(globals.BASE_DIR)}")
+    # #print(Path(__file__).resolve(strict=True).parent.parent.parent)
 
-    print(f"BASE_DIR -> {globals.BASE_DIR.paren.parent}")
-    print(f"BASE_DIR -> {type(globals.BASE_DIR.parent.parent)}")
+    print(f"BASE_DIR.parent.parent -> {globals.BASE_DIR.parent.parent}")
+    print(f"BASE_DIR .parent.parent type -> {type(globals.BASE_DIR.parent.parent)}")
+
     #project_root = Path(__file__).resolve(strict=True).parent.parent.parent
     #print(f"project_root -> {project_root}")
     #data_path = os.path.join(project_root, "/data/iris-data.csv")
     data_path = globals.BASE_DIR.parent.parent / "data/iris-data.csv"
     print(f"data_path -> {data_path}")
+    print(f"data_path type -> {type(data_path)}")
+    
     data = pd.read_csv(data_path, names=column_names, header=None)
     
     #data = pd.read_csv('../../../data/iris-data.csv', names=column_names, header=None)
@@ -186,6 +189,8 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         logger.info(f"Model {clf} EVALUATED!")
     if results:
         #save new results
+        #TODO: add relative path
+
         results_path = '../results/'
         timestamp = datetime.now().strftime("%d-%B-%Y") + '-' + datetime.now().time().strftime("%H-%M-%S")
         file_path = results_path + 'results-'+ timestamp + '.json'
@@ -201,9 +206,26 @@ def save_trained_models(trained_classifiers):
 
     for clf in trained_classifiers.keys():
         #Save trained model
-        models_dir = '../models/prod/'
+        #TODO: add relative path
+        print(f"BASE_DIR.parent.parent -> {globals.BASE_DIR.parent.parent}")
+        print(f"BASE_DIR .parent.parent type -> {type(globals.BASE_DIR.parent.parent)}")
+
+        #project_root = Path(__file__).resolve(strict=True).parent.parent.parent
+        #print(f"project_root -> {project_root}")
+        #data_path = os.path.join(project_root, "/data/iris-data.csv")
+        models_dir = globals.BASE_DIR.parent.parent / "models/prod/"
+        print(f"models_dir -> {models_dir}")
+        print(f"models_dir type -> {type(models_dir)}")
+    
+        #models_dir = '../models/prod/'
         model_name = clf.replace(' ', '') + '.pkl'
-        model_path = models_dir + model_name
+        print(f"model_name -> {model_name}")
+        print(f"model_name type -> {type(model_name)}")
+    
+        model_path = models_dir / model_name
+        print(f"model_path -> {model_path}")
+        print(f"model_path type -> {type(model_path)}")
+    
         with open(model_path, 'wb') as model_file:
             pickle.dump(trained_classifiers[clf], model_file)
             logger.info(f"New Model {clf} saved!")
@@ -226,12 +248,19 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     
     #validate and load model base on given name
     #base_dir = BASE_DIR
-    base_dir = '/home/saito/Documents/picpay/iris-classifier-challenge/api/utils'
-    #print(f"base_dir-> {base_dir}")
-    base_dir = base_dir.replace("api/utils", "")
-    #print(f"base_dir-> {base_dir}")
-    model_path = Path(base_dir).joinpath(f"models/prod/{model_name}.pkl")
-    #print(f"model_path -> {model_path}")
+    #TODO: update to BASE_DIR
+    print(f"BASE_DIR -> {globals.BASE_DIR.parent.parent}")
+    print(f"BASE_DIR -> {type(globals.BASE_DIR.parent.parent)}")
+    model_path = globals.BASE_DIR.parent.parent / f"models/prod/{model_name}.pkl"
+    #model_path = Path(models_dir).joinpath(f"models/prod/{model_name}.pkl")
+    print(f"model_path -> {model_path}")
+    
+    # base_dir = '/home/saito/Documents/picpay/iris-classifier-challenge/api/utils'
+    # #print(f"base_dir-> {base_dir}")
+    # base_dir = base_dir.replace("api/utils", "")
+    # #print(f"base_dir-> {base_dir}")
+    # model_path = Path(base_dir).joinpath(f"models/prod/{model_name}.pkl")
+    # #print(f"model_path -> {model_path}")
 
     if not model_path.exists():
         raise Exception(f"Could not find model at {model_path}")
