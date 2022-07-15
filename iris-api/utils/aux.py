@@ -37,27 +37,28 @@ def execute_train():
     #TODO: download dataset if not erxists
 
     #load dataset globally
+    #['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm'
     column_names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm', 'Species' ]
-    print(f"column_names -> {column_names}")
-    #TODO: update to BASE_DIR
+    #print(f"column_names -> {column_names}")
+    #DONE: update to BASE_DIR
     # print(f"BASE_DIR -> {globals.BASE_DIR}")
     # print(f"BASE_DIR -> {type(globals.BASE_DIR)}")
     # #print(Path(__file__).resolve(strict=True).parent.parent.parent)
 
-    print(f"BASE_DIR.parent.parent -> {globals.BASE_DIR.parent.parent}")
-    print(f"BASE_DIR .parent.parent type -> {type(globals.BASE_DIR.parent.parent)}")
+    # print(f"BASE_DIR.parent.parent -> {globals.BASE_DIR.parent.parent}")
+    # print(f"BASE_DIR .parent.parent type -> {type(globals.BASE_DIR.parent.parent)}")
 
     #project_root = Path(__file__).resolve(strict=True).parent.parent.parent
     #print(f"project_root -> {project_root}")
     #data_path = os.path.join(project_root, "/data/iris-data.csv")
     data_path = globals.BASE_DIR.parent.parent / "data/iris-data.csv"
-    print(f"data_path -> {data_path}")
-    print(f"data_path type -> {type(data_path)}")
+    # print(f"data_path -> {data_path}")
+    # print(f"data_path type -> {type(data_path)}")
     
     data = pd.read_csv(data_path, names=column_names, header=None)
     
     #data = pd.read_csv('../../../data/iris-data.csv', names=column_names, header=None)
-    print(f"data -> {data}")
+    #print(f"data -> {data}")
     #execute preprocessing
     x_train, x_test, y_train, y_test = data_pipeline(data=data)
 
@@ -97,8 +98,9 @@ def data_pipeline(data:pd.DataFrame) -> pd.DataFrame:
     logger.info("data_pipeline init")
     #Separate feature from label
     data_x = data.drop(['Species'], axis=1)
-    #print(f"data_x shape - {data_x.shape}")
-    #print(f"data_x head - {data_x.head()}")
+    print(f"data_x shape - {data_x.shape}")
+    print(f"data_x columns - {data_x.columns}")
+    print(f"data_x head - {data_x.head()}")
 
     data_y = data['Species']
     #print(f"data_y type - {type(data_y)}")
@@ -118,6 +120,8 @@ def data_pipeline(data:pd.DataFrame) -> pd.DataFrame:
 
     x_train,x_test,y_train,y_test = train_test_split(data_x,data_y,test_size=0.15,random_state=0)
     logger.info("train_test_split executed")
+    print(f"x_train type - {type(x_train)}")
+    print(f"y_train type - {type(y_train)}")
     return x_train,x_test,y_train,y_test
 
 def train_all_models(x_train, y_train):
@@ -134,7 +138,7 @@ def train_all_models(x_train, y_train):
 
 def define_all_classifiers():
     #LogisticRegression
-    log_reg = LogisticRegression(max_iter=75,multi_class='multinomial')
+    log_reg = LogisticRegression(max_iter=150,multi_class='multinomial')
 
     #SVM
     svm = SVC()
@@ -189,11 +193,18 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         logger.info(f"Model {clf} EVALUATED!")
     if results:
         #save new results
-        #TODO: add relative path
-
-        results_path = '../results/'
+        #DONE: add relative path
+        # results_path = globals.BASE_DIR.parent.parent / "results/"
+        # print(f"results_path -> {results_path}")
+        # print(f"results_path type -> {type(results_path)}")
+    
+        #results_path = '../results/'
         timestamp = datetime.now().strftime("%d-%B-%Y") + '-' + datetime.now().time().strftime("%H-%M-%S")
-        file_path = results_path + 'results-'+ timestamp + '.json'
+        filename ='results/results-'+timestamp+'.json'
+        file_path = globals.BASE_DIR.parent.parent / filename
+        print(f"file_path -> {file_path}")
+        print(f"file_path type -> {type(file_path)}")
+    
         with open(file_path, 'w') as file:
             json.dump(results, file)
             logger.info(f"New results save as '{file_path}' ")
@@ -206,7 +217,7 @@ def save_trained_models(trained_classifiers):
 
     for clf in trained_classifiers.keys():
         #Save trained model
-        #TODO: add relative path
+        #DONE: add relative path
         print(f"BASE_DIR.parent.parent -> {globals.BASE_DIR.parent.parent}")
         print(f"BASE_DIR .parent.parent type -> {type(globals.BASE_DIR.parent.parent)}")
 
@@ -242,13 +253,13 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     ##data preprocessing
 
     preprocessed_input = input_preprocessing(inputs)
-    #print(f"preprocessed_input -> {preprocessed_input}")
-    #print(f"preprocessed_input type -> {type(preprocessed_input)}")
-    #print(f"preprocessed_input.shape -> {preprocessed_input.shape}")
+    print(f"preprocessed_input -> {preprocessed_input}")
+    print(f"preprocessed_input type -> {type(preprocessed_input)}")
+    print(f"preprocessed_input.shape -> {preprocessed_input.shape}")
     
     #validate and load model base on given name
     #base_dir = BASE_DIR
-    #TODO: update to BASE_DIR
+    #DONE: update to BASE_DIR
     print(f"BASE_DIR -> {globals.BASE_DIR.parent.parent}")
     print(f"BASE_DIR -> {type(globals.BASE_DIR.parent.parent)}")
     model_path = globals.BASE_DIR.parent.parent / f"models/prod/{model_name}.pkl"
@@ -293,7 +304,19 @@ def validate_input(inputs:List[float]):
     #raise expection otherwise
     
 
-def input_preprocessing(inputs:List[float]) -> np.array:
+def input_preprocessing(inputs:List[float]) -> pd.DataFrame:#np.array:
     #convert list to numpy array with shape 1,4
     #print(f" np.array(inputs) -> { np.array(inputs)}")
-    return np.array(inputs).reshape(1, -1)
+    column_names = ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']
+    print(f"column_names -> {column_names}")
+    #print(pd.DataFrame(inputs, columns=column_names).T)
+    df = pd.DataFrame(inputs).T
+    print(f"df -> {df}")
+    print(f"df.columns  -> {df.columns }")
+    df.columns = column_names
+    #print(df.shape)
+    print(f"df -> {df}")
+    print(f"df -> {df.columns}")
+    return df
+    #return pd.DataFrame(inputs, columns=column_names).T
+    #return np.array(inputs).reshape(1, -1)
