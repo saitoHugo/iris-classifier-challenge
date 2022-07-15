@@ -87,11 +87,11 @@ def train(payload: TrainInput):
     model_name = payload.model_name
 
     try:
-        utils.execute_train()
+        results = utils.execute_train()
         logger.info("utils.execute_train executed")
     except:
         logger.info("error occurred in the training process")
         raise HTTPException(status_code=500, detail="Internal error during training execution.")
     
-    
+    return results
     
