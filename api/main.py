@@ -19,7 +19,6 @@ TODO:
     - extra route get_all_trained_models
     - download local data or download from bucket
 
-    - add logging
 """
 # #TODO: define global base dir
 # global BASE_DIR
@@ -61,7 +60,7 @@ async def docs_redirect():
     return RedirectResponse(url='/docs')
 
 @app.post("/predict", response_model=PredictionOutput, status_code=200)
-def get_prediction(payload: PredictionInput):
+def prediction(payload: PredictionInput):
     logger.info("/predict route init")
     model_name = payload.model_name
 
@@ -83,14 +82,16 @@ def get_prediction(payload: PredictionInput):
 
 
 @app.post("/train", response_model=TrainOutput, status_code=200)
-def get_prediction(payload: TrainInput):
+def train(payload: TrainInput):
     logger.info("/train route init")
     model_name = payload.model_name
 
-    prediction_list = utils.train(model_name)
-    logger.info("utils.predict executed")
+    try:
+        utils.execute_train()
+        logger.info("utils.execute_train executed")
+    except:
+        logger.info("error occurred in the training process")
+        raise HTTPException(status_code=500, detail="Internal error during training execution.")
     
-
-    if not prediction_list:
-        raise HTTPException(status_code=400, detail="Model not found.")
+    
     
