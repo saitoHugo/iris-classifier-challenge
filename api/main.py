@@ -32,7 +32,7 @@ TODO:
 ### pydantic models
 class PredictionInput(BaseModel):
     model_name: str
-    Inputs: List[float]
+    inputs: List[float]
 
 
 
@@ -41,18 +41,21 @@ class PredictionOutput(BaseModel):
     label: str
     value: int
 
-class TrainInput(BaseModel):
-    #TODO:update attributes
-    model_name: str
-    Inputs: List[float]
+#class TrainInput(BaseModel):
+#    #TODO:update attributes
+#    model_name: str
+    
 
 
 
 class TrainOutput(BaseModel):
     #TODO:update attributes
-    model_name: str
-    label: str
-    value: int
+    LogisticRegression : List[float]
+    SupportVectorMachine : List[float]
+    KNearestNeighbor : List[float]
+    RandomForest : List[float]
+    XgBoost : List[float]
+    GaussianNaiveBayes: List[float]
 
 
 @app.get("/", include_in_schema=False)
@@ -82,16 +85,14 @@ def prediction(payload: PredictionInput):
 
 
 @app.post("/train", response_model=TrainOutput, status_code=200)
-def train(payload: TrainInput):
+def train():
     logger.info("/train route init")
-    model_name = payload.model_name
-
     try:
         results = utils.execute_train()
         logger.info("utils.execute_train executed")
     except:
         logger.info("error occurred in the training process")
         raise HTTPException(status_code=500, detail="Internal error during training execution.")
-    
+
     return results
     

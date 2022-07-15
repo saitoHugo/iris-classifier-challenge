@@ -77,6 +77,7 @@ def data_pipeline(data:pd.DataFrame) -> pd.DataFrame:
     parms: data - pandas.Dataframe
     output: preprocessed_data - 
     """
+    logger.info("data_pipeline init")
     #Separate feature from label
     data_x = data.drop(['Species'], axis=1)
     print(f"data_x shape - {data_x.shape}")
@@ -91,29 +92,29 @@ def data_pipeline(data:pd.DataFrame) -> pd.DataFrame:
     #convert Labels to numerical
     label_encoder = LabelEncoder()
     data_y = label_encoder.fit_transform(data_y)
-
-
     print(f"data_y type - {type(data_y)}")
     print(f"data_y head - {data_y[:10]}")
     print(f"data_y tail - {data_y[-10:]}")
     print(f"data_y lenght - {len(data_y)}")
+    logger.info("data transformations executed")
 
 
     x_train,x_test,y_train,y_test = train_test_split(data_x,data_y,test_size=0.15,random_state=0)
-    
+    logger.info("train_test_split executed")
     return x_train,x_test,y_train,y_test
 
 def train_all_models(x_train, y_train):
+    logger.info("train_all_models init")
     #Initialize all models objects
     classifiers = define_all_classifiers()
     for clf in classifiers.keys(): 
         #Execute train
         classifiers[clf].fit(x_train,y_train)
-        
+        logger.info(f"Model {clf} TRAINED!")
+    logger.info("train_all_models end")
     return classifiers
 
 
-    pass
 def define_all_classifiers():
     #LogisticRegression
     log_reg = LogisticRegression(max_iter=75,multi_class='multinomial')
@@ -167,8 +168,8 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         print(f"{conf_matrix}")
         print(f"{clf} ------->> recall = {recall}%")
         print(f"{clf} ------->> f1 score = {f1}%")
-        results[clf] = [train_score, acc_score, precision, recall, f1]
-
+        results[clf.replace(' ', '')] = [train_score, acc_score, precision, recall, f1]
+        logger.info(f"Model {clf} EVALUATED!")
     if results:
         #save new results
         results_path = '../results/'
@@ -176,13 +177,14 @@ def performance_analysis(trained_classifiers, x_train, x_test, y_train, y_test):
         file_path = results_path + 'results-'+ timestamp + '.json'
         with open(file_path, 'w') as file:
             json.dump(results, file)
+            logger.info(f"New results save as '{file_path}' ")
 
         return results
     else:
-        pass
+        raise Exception('Error when evaluating the trained models')
 
 def save_trained_models(trained_classifiers):
-    
+
     for clf in trained_classifiers.keys():
         #Save trained model
         models_dir = '../models/prod/'
@@ -190,3 +192,4 @@ def save_trained_models(trained_classifiers):
         model_path = models_dir + model_name
         with open(model_path, 'wb') as model_file:
             pickle.dump(trained_classifiers[clf], model_file)
+            logger.info(f"New Model {clf} saved!")
