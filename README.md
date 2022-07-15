@@ -75,7 +75,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
     `cd iris-api/`
 
-- Then, run the server with uvicorn
+- Then, run the local server with uvicorn
 
     `uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8080`
 
@@ -87,7 +87,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 **Endponits Disponíveis**
 
-`/train` : used to execute a new training
+`/train` : used to execute a new training with all models
 
 `/predict` :   used to execute a new prediction based on 4 features inputs
 

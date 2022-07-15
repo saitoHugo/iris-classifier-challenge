@@ -200,18 +200,18 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     ##data preprocessing
 
     preprocessed_input = input_preprocessing(inputs)
-    print(f"preprocessed_input -> {preprocessed_input}")
-    print(f"preprocessed_input type -> {type(preprocessed_input)}")
-    print(f"preprocessed_input.shape -> {preprocessed_input.shape}")
+    #print(f"preprocessed_input -> {preprocessed_input}")
+    #print(f"preprocessed_input type -> {type(preprocessed_input)}")
+    #print(f"preprocessed_input.shape -> {preprocessed_input.shape}")
     
     #validate and load model base on given name
     #base_dir = BASE_DIR
     base_dir = '/home/saito/Documents/picpay/iris-classifier-challenge/api/utils'
-    print(f"base_dir-> {base_dir}")
+    #print(f"base_dir-> {base_dir}")
     base_dir = base_dir.replace("api/utils", "")
-    print(f"base_dir-> {base_dir}")
+    #print(f"base_dir-> {base_dir}")
     model_path = Path(base_dir).joinpath(f"models/prod/{model_name}.pkl")
-    print(f"model_path -> {model_path}")
+    #print(f"model_path -> {model_path}")
 
     if not model_path.exists():
         raise Exception(f"Could not find model at {model_path}")
@@ -219,14 +219,14 @@ def predict(model_name:str, inputs:List[float]) -> List[int]:
     with open(model_path, 'rb') as model_file:
         try:
             loaded_model = pickle.load(model_file)
-            print(f"loaded_model -> {loaded_model}")
+            #print(f"loaded_model -> {loaded_model}")
         except:
             raise Exception('Error during the loading of the model')
         #Try to predict
         try:
             output = loaded_model.predict(preprocessed_input)
-            print(f"{model_name} ------->> prediction = {output}")
-            print(f"output len -> {len(output)}")
+            #print(f"{model_name} ------->> prediction = {output}")
+            #print(f"output len -> {len(output)}")
         except:
             raise Exception('Error during the prediction of the model')
         
@@ -246,5 +246,5 @@ def validate_input(inputs:List[float]):
 
 def input_preprocessing(inputs:List[float]) -> np.array:
     #convert list to numpy array with shape 1,4
-    print(f" np.array(inputs) -> { np.array(inputs)}")
+    #print(f" np.array(inputs) -> { np.array(inputs)}")
     return np.array(inputs).reshape(1, -1)
