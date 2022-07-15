@@ -23,6 +23,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY ./iris-api /code/iris-api
 
 EXPOSE 8080
+ENV PYTHONPATH "${PYTHONPATH}:/code/iris-api"
 CMD ["uvicorn", "iris-api.main:app", "--host", "0.0.0.0", "--port", "8080"]
 
 # If running behind a proxy like Nginx or Traefik add --proxy-headers

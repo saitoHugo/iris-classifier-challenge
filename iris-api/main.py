@@ -21,6 +21,8 @@ TODO:
     - download local data or download from bucket
 
 """
+global BASE_DIR
+BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 
 
