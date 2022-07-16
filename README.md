@@ -1,6 +1,12 @@
 # iris-classifier-challenge
 Repository to train a Machine Learning model on Iris Public Dataset and deploy an FastAPI with basic endpoints using Docker at AWS Cloud.
 
+# TODO
+
+- add iris challenge overview
+- add solution approach and steps
+
+
 
 ## Repository Structure
 
@@ -12,7 +18,7 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
     ├── assets                      # Local storage for images and other static resources
     │   └── images                  # Folder to save images used in project 
     │
-    ├── data                        # Local storage of the dataset (alternatively `lib` or `app`)
+    ├── data                        # Local storage of the dataset
     │
     ├── iris-api                    # Main folder of FastAPI 
     │   ├── main                    # Main file fo API
@@ -25,8 +31,8 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
     │
     ├── notebooks                   # Folder to storage all jupyter notebooks
     │   ├── data_exploration.ipynb  #Data Exploration Proccess
-    │   ├── data_exploration.ipynb  #Data Exploration Proccess
-    │   └── data_exploration.ipynb  #Data Exploration Procces
+    │   ├── training.ipynb  #Data Preparation and Training Proccess
+    │ 
     │
     ├── Dockerfile                  # Dockerfile configuration
     │
@@ -40,9 +46,10 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 
 ## Prerequisits
 
-- Python3 3.9.13
-- Pip 22.1.2
-- Linux OS
+- Python - Version: 3.9.13
+- Docker Engine Community - Version: 20.10.17
+- Pip - Version:22.1.2
+- Ubuntu OS Version: 20.
 
 
 ## Prepara the enviroment
@@ -67,7 +74,63 @@ Repository to train a Machine Learning model on Iris Public Dataset and deploy a
 - After installing requirements, move to iris-api folder
 
     `cd iris-api/`
+    
 
-- the then, run the server with uvicorn
+- Then, run the local server with uvicorn
 
-    `uvicorn main:app --reload`
+    `uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8080`
+
+- Or only run:
+    `make dev`
+
+
+### API Docs
+
+- To access the api documentation access the link generated and you will redicrected to `/doc`:
+    `http://0.0.0.0:8080`
+
+**Endponits Disponíveis**
+
+`/train` : used to execute a new training with all models
+
+`/predict` :   used to execute a new prediction based on 4 features inputs
+
+
+### Docker
+
+It's a prerequisite that you have docker installed.
+- Go to the project directory (in where the Dockerfile and build your FastAPI image:
+- Build the docker image running:
+    `docker build --tag iris-api .`
+
+- Or only run:
+    `make docker-build`
+
+- Run the docker image using:
+    `docker run -i -d -p 8080:8080 iris-api`
+    `docker run --publish 8080:8080 --name iris-api`
+    `docker run -p 8080:8080 --name iris-api-container iris-api`
+
+- Or only run:
+    `make docker-run`
+
+
+## Deploy
+
+- heroku login
+
+- heroku create iris-api-container
+
+- heroku container:login
+
+- Build the Docker image and tag it with the Heroku format:
+    `make heroku-docker-build`
+
+- Registry image in Heroku docker Registry:
+    `make heroku-docker-registry`
+
+- Perform a release:
+    `make heroku-release`
+
+- Now a new deploy is executed in Heroku, acess public link:
+    https://iris-classifier-challenge.herokuapp.com/
