@@ -8,13 +8,7 @@ RUN apt-get -y update  && apt-get install -y \
   python-dev \
   build-essential 
 
-# ENV VIRTUAL_ENV=/code/venv
-# RUN python3 -m venv $VIRTUAL_ENV
-# ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-#RUN python3 -m venv /code/venv
-#ENV PATH="/code/venv/bin/activate"
 
-#RUN code/.venv/bin/pip install --upgrade pip
 RUN pip install --upgrade pip
 COPY ./requirements.txt /code/requirements.txt
 #RUN code/.venv/bin/pip install --no-cache-dir --upgrade -r /code/requirements.txt
