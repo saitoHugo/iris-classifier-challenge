@@ -5,7 +5,7 @@ docker-build:
 	docker build -t iris-api .
 
 docker-run:
-	docker run -p 8080:8080 --name iris-api-container iris-api
+	docker run -d -p 8080:8080 --name iris-api-local-container iris-api:latest
 
 docker-clean:
 	(docker stop iris-api-container && docker rm iris-api-container )
