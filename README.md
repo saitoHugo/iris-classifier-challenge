@@ -229,9 +229,23 @@ It's a prerequisite that you have docker installed.
 
 ## Further Improvements
 
-- definir pipeline para ingestão e processamento de novos dados para o banco 
-- feat Store
-- Definir uma pipepline de re-treino e quando executá-la
+- Use MlFlow or Kubeflow to manage ML Model lifecycle
+- Definir pipeline para ingestão e processamento de novos dados para o banco (feat Store) de forma isolada
+- Versionmaneto data, training, model and perfmomance
+    - artifact
 - Monitoramento do modelo
-- Ambiente de homologação e experimentação
+    - alarms, planos de incidencia
+    - health system
+    - validation of new data
+    - prediction probs
+        - change based on previous predictions
+        - change of feat distribution
+        - change on prediction classes
+        - group by specieis prediction
+  
+- Define a pipepline for re-treino and when to execute
+
 - Melhorias de Infra
+    - kubernets (Kubeflow Pipelines)
+- treinamento em cluster separados
+- Ambiente de homologação e experimentação
