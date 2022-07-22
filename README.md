@@ -201,17 +201,24 @@ It's a prerequisite that you have docker installed.
 
 - Start Use TDD
 
-- Preprocessing Updates
-    - feat scaling
-
-- Training Updates 
-    - Cross Validation
-    - Grid Search for param optimization
-
 - Split Training phase into more microsservices
-    - ...
+    - train()
 
-- define one best model
+        - /get_data
+        - /data pipeline
+        - /train_model(model_name, test_size, cross_validation, grid_search)
+        - /evaluate-model(model_name, train_score, acc_score)
+        - /validate_model(model_name)
+        - /update-new-model()
+
+- Training Updates
+
+    - Cross Validation: applied to deal variance problem based on small toy dataset. It also would be useful to define the best model.
+
+    - Grid Search: applied optimize the hyper-parameters I could have used GridSearch for find the best models configurations for the toy dataset. It also would be useful to define the best model.
+
+
+- Define one best model
     - load model on api startup
     - update loaded model after new trainining
 
@@ -222,8 +229,9 @@ It's a prerequisite that you have docker installed.
 
 ## Further Improvements
 
-- Definir uma pipepline de re-treino e quando executá-la
 - definir pipeline para ingestão e processamento de novos dados para o banco 
 - feat Store
+- Definir uma pipepline de re-treino e quando executá-la
 - Monitoramento do modelo
 - Ambiente de homologação e experimentação
+- Melhorias de Infra
